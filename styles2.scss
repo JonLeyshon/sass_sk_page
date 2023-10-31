@@ -1,0 +1,328 @@
+//Variables//
+$blood-font: rgb(192, 1, 1);
+$background-color: #ffffff;
+$font-color: #000000;
+$paragraph-font-size: 1.4rem;
+$paraprah-font-size-tablet: 1.5rem;
+$paraprah-font-size-desktop: 1.6rem;
+$h1-size: 4rem;
+$anchor-size: 1.25rem;
+$anchor-size-tablet: 1.6rem;
+$anchor-size-desktop: 2rem;
+$h2-size: 1.6rem;
+$h2-size-larger: 2.5rem;
+$h3-size: 1.5rem;
+$h3-size-larger: 2rem;
+
+//mixins//
+@mixin h2-sizing($input) {
+  @if $input == "large" {
+    font-size: $h2-size-larger;
+  } @else {
+    font-size: $h2-size;
+  }
+}
+
+@mixin h3-sizing($input) {
+  @if $input == "large" {
+    font-size: $h3-size-larger;
+  } @else {
+    font-size: $h3-size;
+  }
+}
+
+@mixin anchor-sizing($input) {
+  @if $input == "tablet" {
+    font-size: $anchor-size-tablet;
+  } @else if $input == "desktop" {
+    font-size: $anchor-size-desktop;
+  } @else {
+    font-size: $anchor-size;
+  }
+}
+
+@mixin paragraph-sizing($input) {
+  @if $input == "tablet" {
+    font-size: $paraprah-font-size-tablet;
+  } @else if $input == "desktop" {
+    font-size: $paraprah-font-size-desktop;
+  } @else {
+    font-size: $paragraph-font-size;
+  }
+}
+
+@mixin custom-font($type) {
+  @if $type == "scary" {
+    font-family: nosifer;
+  } @else if $type == "quote" {
+    font-family: zeyada;
+  } @else if $type == "normal" {
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+  }
+}
+
+@mixin img-size($input) {
+  @if $input == "large" {
+    width: 30rem;
+    height: 36.5rem;
+  } @else if $input == "medium" {
+    width: 22rem;
+    height: 27rem;
+  } @else {
+    width: 17.5rem;
+    height: 21rem;
+  }
+  border-radius: 1rem;
+}
+
+//extends//
+
+%blood-font {
+  color: $blood-font;
+}
+%flex {
+  display: flex;
+}
+%flex-center {
+  @extend %flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+%flex-evenly {
+  @extend %flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+}
+%flex-around {
+  @extend %flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+%flex-between {
+  @extend %flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+%padding-small {
+  padding: 2rem;
+}
+%margin-small {
+  margin: 2rem;
+}
+
+%text-center {
+  text-align: center;
+}
+
+// styling //
+html {
+  background-color: $background-color;
+  color: $font-color;
+}
+blockquote {
+  @include custom-font(quote);
+  @extend %text-center;
+  font-size: $h3-size-larger;
+}
+
+h1 {
+  @extend %margin-small;
+  @extend %text-center;
+  @extend %blood-font;
+  @include custom-font(scary);
+  font-size: $h1-size;
+  align-self: center;
+}
+
+h2 {
+  @extend %text-center;
+  @extend %margin-small;
+  @extend %blood-font;
+  @include custom-font(scary);
+  font-size: $h2-size;
+}
+
+h3 {
+  @extend %text-center;
+  @extend %margin-small;
+  @include custom-font(scary);
+  text-decoration: underline;
+}
+
+p {
+  @include custom-font(normal);
+  @extend %text-center;
+}
+
+a {
+  font-size: $anchor-size;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  background-color: $background-color;
+  min-height: 4rem;
+  z-index: 1;
+  padding-bottom: 2rem;
+  a:hover {
+    color: $blood-font;
+  }
+}
+section {
+  padding-top: 2.5rem;
+}
+.container {
+  @extend %flex;
+
+  &.navigation-flex {
+    @extend %flex-evenly;
+    gap: 2rem;
+    a {
+      @include custom-font(scary);
+    }
+  }
+
+  &.para {
+    font-size: $paragraph-font-size;
+    @extend %flex;
+    @extend %margin-small;
+    flex-direction: column;
+    @extend %flex-center;
+  }
+
+  &.books {
+    @extend %flex-between;
+  }
+
+  &.inner {
+    @extend %flex-evenly;
+    flex-direction: column;
+    border-bottom: solid black 1px;
+  }
+
+  &.bio {
+    @extend %flex;
+    @extend %flex-around;
+    img {
+      @include img-size(large);
+    }
+  }
+
+  &.images {
+    @extend %flex-around;
+    @extend %margin-small;
+    gap: 10px;
+    img {
+      @include img-size(medium);
+    }
+  }
+}
+
+.hero {
+  @extend %padding-small;
+}
+
+section > p {
+  @extend %padding-small;
+}
+
+.img-container {
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  &:hover .overlay {
+    transform: translateX(0);
+  }
+  img {
+    @include img-size(small);
+  }
+}
+.overlay {
+  background-color: rgb(228, 226, 226);
+  color: black;
+  text-align: center;
+  text-shadow: 1px 1px 1px black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+  transform: translateX(-100%);
+  transition: all 0.5s ease-in-out;
+}
+footer {
+  background-color: rgb(222, 222, 223);
+  border-radius: 1rem;
+  font-size: $paragraph-font-size;
+  @extend %flex-center;
+  flex-direction: column;
+  a {
+    color: blue;
+    @include custom-font(scary);
+  }
+}
+
+@media (min-width: 600px) {
+  h2 {
+    @include h2-sizing(large);
+  }
+  h3 {
+    @include h3-sizing(large);
+  }
+  a {
+    @include anchor-sizing(tablet);
+  }
+  p {
+    @include paragraph-sizing(tablet);
+  }
+  .img-container {
+    @include img-size(medium);
+    img {
+      @include img-size(medium);
+    }
+  }
+  blockquote {
+    font-size: 2.5rem;
+  }
+}
+@media (min-width: 850px) {
+  a {
+    @include anchor-sizing(desktop);
+  }
+  p {
+    @include paragraph-sizing(desktop);
+  }
+  .container.images > img {
+    @include img-size(large);
+  }
+  .img-container {
+    @include img-size(large);
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .container.inner {
+    flex-direction: row;
+    max-width: 30vw;
+    justify-content: center;
+    align-items: center;
+  }
+}
